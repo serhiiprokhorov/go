@@ -34,15 +34,16 @@ There are two arrays the server maintains:
 * users: map of url decoded user names, each name is associated to a user data; user data is just a very last message id delivered to this client
 * messages: plain array of 1000 messages, each new message is added to the end of it, rolls over on overflow
 
-On join, the server adds a user into the users map and updates user data to a very last message index (i.e. this user will inly see messase created LATER).
-On leave, the server removes a user from the users map
+On join, the server adds a user into the users map and updates user data to a very last message index (i.e. this user will only see messages which will be created LATER, since he/she joined).
+
+On leave, the server removes a user from the users map.
+
 On say, the server adds the messages into the messages array; if there are listen requests pending response, the server broadcastst the message for them (see listen command below)
+
 On listen, the server compares current message index with this user data:
 * if user data's message index is different, then this client receives new messages in a response to listed command
 * if user data's message index is the same as current message index (there are no new messages), 
 then the server blocks the response and waits on conditional variable for a broadcast message
-
-### Command Listen explained
 HTTP is a one way protocol. One end initiates the call, other end listens.
 So the client may only implement a poll logic to receive new messages from the server.
 Naive poll is ineffective in this case, HTTP request is expensive.
