@@ -1,19 +1,24 @@
 # go
 ## mychat
 mychat is a very simple chat app written in go
-### starting a room server at port 8080, room name myroom
+### Usage
+Starting a new room server at port 8080, room name myroom.
+This command creates a new server process which listens on localhost:8080 for incoming HTTP connections
 ```
 go mychat create room myroom at 8080
 ```
-this command starts a new server process which listens on localhost:8080 for incoming HTTP connections
 
-### joining the room myroom at localhost port 8080 with user name serhii
+Joining the room myroom at localhost port 8080 with user name serhii
+This command starts a new process which communicates to a room server at address localhost:8080, messages will be shown in the room as created by serhii
 ```
 go run . join room myroom at localhost:8080 as serhii
 ```
-this command starts a new process which communicates to a room server at address localhost:8080, messages will be shown in the room as created by serhii
+Multiple users may join this run in the same way simultaneously.
+Any message produced by a user A will be delivered to all other users.
 
-###Purpose
+![Three clients talking to each other](mychat/pics/three_users.png)
+
+### Purpose
 This is very simple chat implementation, written by me for educational purposes.
 No protection from misbehaving client, DDOS, sensitive data exposure have been made whatsoever.
 This whole code purpose is only to learn myself of a cool GO features, like channels, locking, pointers and so on.
